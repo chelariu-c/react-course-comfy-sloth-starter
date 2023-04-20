@@ -1,10 +1,78 @@
-import React from 'react'
-import styled from 'styled-components'
-import { formatPrice } from '../utils/helpers'
-import { Link } from 'react-router-dom'
-const ListView = () => {
-  return <h4>list view</h4>
-}
+import React from "react";
+import styled from "styled-components";
+import { formatPrice } from "../utils/helpers";
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+// const ListView = ({ products, images }) => {
+//   const [main, setMain] = useState(images.length > 0 ? images[0] : null);
+
+//   return (
+//     <Wrapper>
+      
+//       {products.map((product, index ) => {
+//         const { id, name, price, description } = product;
+        
+      
+//         const image = images[index][0];
+
+//         return (
+//           <article key={id}>
+//             <img src={image.url} alt={name} />
+//             {/* {images.map((image) => (
+//               <img key={image.id} src={image.url} alt={name} />
+//             ))} */}
+//             <div>
+//               <h4>{name}</h4>
+//               <h5 className="price">{formatPrice(price)}</h5>
+//               <p>{description.substring(0, 150)}...</p>
+//               <Link to={`/products/${id}`} className="btn">
+//                 Details
+//               </Link>
+//             </div>
+//           </article>
+//         );
+//       })}
+//     </Wrapper>
+//   );
+// };
+
+const ListView = ({ products, images }) => {
+  const [main, setMain] = useState(null);
+
+   useEffect(() => {
+    if (images && images.length > 0) {
+      setMain(images[0]);
+    }
+  }, [images]);
+
+
+  return (
+    <Wrapper>
+      
+      {products.map((product, index ) => {
+        const { id, name, price, description } = product;
+
+        const image = images && images[index] && images[index][0];
+
+        return (
+          <article key={id}>
+            <img src={image ? image.url : ""} alt={name} />
+            <div>
+              <h4>{name}</h4>
+              <h5 className="price">{formatPrice(price)}</h5>
+              <p>{description.substring(0, 150)}...</p>
+              <Link to={`/products/${id}`} className="btn">
+                Details
+              </Link>
+            </div>
+          </article>
+        );
+      })}
+    </Wrapper>
+  );
+};
+
 
 const Wrapper = styled.section`
   display: grid;
@@ -42,6 +110,6 @@ const Wrapper = styled.section`
       align-items: center;
     }
   }
-`
+`;
 
-export default ListView
+export default ListView;

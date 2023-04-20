@@ -1,11 +1,44 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 
-const ProductImages = () => {
-  return <h4>product images</h4>
-}
+const ProductImages = ({ images }) => {
+
+  const [main, setMain] = useState(null);
+
+   useEffect(() => {
+    if (images.length > 0) {
+      setMain(images[0]);
+    }
+  }, [images]);
+
+  if (!main) {
+    return <div className="text" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      No images Available...</div>;
+  }
+
+  return (
+    <Wrapper>
+      <img src={main.url} alt="" className="main" />
+      <div className="gallery">
+       {images.map((image, index) => {
+          return (
+            <img
+              src={image.url}
+              alt={image.filename}
+              key={index}
+              onClick={() => setMain(images[index])}
+              className={`${image.url === main.url ? "active" : null}`}
+            />
+          );
+        })}
+      </div>
+    </Wrapper>
+  );
+};
+
 
 const Wrapper = styled.section`
+
   .main {
     height: 600px;
   }
@@ -48,6 +81,6 @@ const Wrapper = styled.section`
       }
     }
   }
-`
+`;
 
-export default ProductImages
+export default ProductImages;
