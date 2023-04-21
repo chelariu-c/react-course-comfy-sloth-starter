@@ -16,6 +16,9 @@ import {
   GET_SINGLE_PRODUCT_IMAGES_BEGIN,
   GET_SINGLE_PRODUCT_IMAGES_SUCCESS,
   GET_SINGLE_PRODUCT_IMAGES_ERROR,
+  GET_PRODUCT_STOCK_BEGIN,
+  GET_PRODUCT_STOCK_SUCCESS,
+  GET_PRODUCT_STOCK_ERROR,
 } from "../actions";
 
 const initialState = {
@@ -29,7 +32,11 @@ const initialState = {
   single_product: {},
   single_product_image_loading: false,
   single_product_image_error: false,
-  single_product_images:[],
+  single_product_images: [],
+  product_stock_loading: false,
+  product_stock_error: false,
+  product_stock: {},
+
 };
  
 const ProductsContext = React.createContext();
@@ -81,9 +88,22 @@ export const ProductsProvider = ({ children }) => {
     }
   };
 
+  const fetchProductQuantity = async (id) => {
+    dispatch({ type: GET_PRODUCT_STOCK_BEGIN });
+     try {
+      const productStockUrl = `http://localhost:8081/inventories/${id}`;
+       const response = await axios.get(productStockUrl);
+       console.log("response.data",response.data);
+       const productStock = response.data[0];
+      dispatch({ type: GET_PRODUCT_STOCK_SUCCESS, payload: productStock });
+    } catch (error) {
+      dispatch({ type: GET_PRODUCT_STOCK_ERROR });
+    }
+  };
+
   return (
     <ProductsContext.Provider
-      value={{ ...state, openSidebar, closeSidebar, fetchSingleProduct, fetchProductImages }}
+      value={{ ...state, openSidebar, closeSidebar, fetchSingleProduct, fetchProductImages, fetchProductQuantity }}
     >
       {children}
     </ProductsContext.Provider>

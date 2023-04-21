@@ -10,6 +10,9 @@ import {
   GET_SINGLE_PRODUCT_IMAGES_BEGIN,
   GET_SINGLE_PRODUCT_IMAGES_SUCCESS,
   GET_SINGLE_PRODUCT_IMAGES_ERROR,
+  GET_PRODUCT_STOCK_BEGIN,
+  GET_PRODUCT_STOCK_SUCCESS,
+  GET_PRODUCT_STOCK_ERROR,
 } from "../actions";
 
 const products_reducer = (state, action) => {
@@ -83,6 +86,30 @@ if (action.type === GET_SINGLE_PRODUCT_IMAGES_BEGIN) {
       ...state,
       single_product_images_loading: false,
       single_product_images_error: true,
+    };
+  }
+
+  if (action.type === GET_PRODUCT_STOCK_BEGIN) {
+    return {
+      ...state,
+      product_stock_loading: true,
+      product_stock_error: false,
+    };
+  }
+  if (action.type === GET_PRODUCT_STOCK_SUCCESS) {
+    console.log(" action.payload,", action.payload);
+    return {
+      ...state,
+      product_stock_loading: false,
+      product_stock: action.payload,
+    };
+  }
+
+  if (action.type === GET_PRODUCT_STOCK_ERROR) {
+    return {
+      ...state,
+      product_stock_loading: false,
+      product_stock_error: true,
     };
   }
   throw new Error(`No Matching "${action.type}" - action type`);

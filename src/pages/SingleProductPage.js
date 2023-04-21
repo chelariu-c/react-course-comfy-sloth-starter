@@ -17,29 +17,36 @@ import { Link } from "react-router-dom";
 const SingleProductPage = () => {
   const { id } = useParams();
   const history = useHistory();
+ 
+
+  // const [showStock, setShowStock] = useState(null); // state to control showing stock info
+  
   const {
     single_product_loading: loading,
     single_product_error: error,
     single_product: product,
     single_product_images: images,
+    product_stock: stock,
     fetchSingleProduct,
     fetchProductImages,
+    fetchProductQuantity,
   } = useProductsContext();
 
-  useEffect(() => {
-    fetchSingleProduct(`${url}${id}`);
-  }, [id]);
 
-    useEffect(() => {
-     fetchProductImages(`${id}`);
-  }, [id]);
- 
   useEffect(() => {
-    if (error) {
+  fetchSingleProduct(`${url}${id}`)
+    .then(() => fetchProductImages(`${id}`))
+    .catch(() => {
       setTimeout(() => {}, 3000);
       history.push("/");
-    }
-  }, [error, history]);
+    });
+  }, [id]);
+  
+  
+
+useEffect(() => {
+   fetchProductQuantity(`${id}`)
+}, [id]);
 
   if (loading) {
     return <Loading />;
@@ -48,25 +55,27 @@ const SingleProductPage = () => {
   if (error) {
     return <Error />;
   }
-
+  
   const {
     name,
     price,
     description,
-    stock = 0,
     stars,
     reviews,
     id: sku,
     companyDto,
   } = product;
 
-  const {
-    id:imgId,
-    filename,
-    url:urlImages,
-  } = images;
+//     const {articleId, quantityOnHand} = stock;
 
+//   let showStock = false;
 
+// if (product && stock) {
+  
+//   showStock = articleId === id && quantityOnHand > 0;
+// }
+ 
+  
   return (
     <Wrapper>
       <PageHero title={name} product />
@@ -83,7 +92,12 @@ const SingleProductPage = () => {
             <p className="desc">{description}</p>
             <p className="info">
               <span>Available :</span>
-              {stock > 0 ? "In stock" : "Out of stock"}
+            
+              {
+             stock && stock.quantityOnHand > 0 ? `In stock (${stock.quantityOnHand} available)`
+                  : "Out of stock"
+            }
+
             </p>
             <p className="info">
               <span>SKU :</span>
@@ -94,9 +108,12 @@ const SingleProductPage = () => {
               {companyDto}
             </p>
             <hr />
-            {stock > 0 && <AddToCart product={product} />}
+          { stock && stock.quantityOnHand > 0 ? (
+              <AddToCart product={product} quantityOnHand={stock.quantityOnHand} />
+            ): "" }
+              
           </section>
-        </div>
+        </div> 
       </div>
     </Wrapper>
   );
