@@ -16,10 +16,9 @@ const cart_reducer = (state, action) => {
       const tempCart = state.cart.map((cartItem) => {
         if (cartItem.id === product.id) {
           let newAmount = cartItem.amount + amount;
-          if (newAmount > cartItem.max) {
-            newAmount=cartItem.max
+          if (newAmount > quantityOnHand) {
+            newAmount= quantityOnHand
           }
-          console.log(cartItem.max)
           return {...cartItem, amount: newAmount}
           
         } else {
@@ -34,7 +33,7 @@ const cart_reducer = (state, action) => {
         amount,
         image: product.images[0].url,
         price: product.price,
-        max:product.quantityOnHand
+        max:quantityOnHand
        
       }
       return {...state, cart:[...state.cart, newItem]}
@@ -52,13 +51,18 @@ const cart_reducer = (state, action) => {
 
   if (action.type === TOGGLE_CART_ITEM_AMOUNT) {
     const { id, value } = action.payload;
+ 
     const tempCart = state.cart.map((item) => {
+
       if (item.id === id) {
+        let newAmount = item.amount;
+      
         if (value === 'increase') {
-          let newAmount = item.amount + 1
-          if (newAmount > item.max) {
-            newAmount = item.max;
+             newAmount = item.amount + 1
+           if (newAmount > item.max) {
+             newAmount = item.max;
           }
+         
           return {...item, amount: newAmount }
         }
         if (value === 'decrease') {
@@ -68,9 +72,9 @@ const cart_reducer = (state, action) => {
           }
           return {...item, amount: newAmount }
         }
-      } else {
-        return item;
       }
+        return item;
+      
     })
     return { ...state, cart:tempCart}
   }
