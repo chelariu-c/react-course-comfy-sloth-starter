@@ -43,7 +43,7 @@ const AddToCart = ({ product, quantityOnHand }) => {
           increase={increase}
           decrease={decrease}
         />
-        <Link to="/cart" className="btn" onClick={(() => addToCart(id, amount, product))
+        <Link to="/cart" className="btn" onClick={() => addToCart(id, amount, stock) //stock becaause i want to check in inverntory service after the product
  }>
           Add to cart
         </Link>

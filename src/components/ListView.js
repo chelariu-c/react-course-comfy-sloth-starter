@@ -1,16 +1,29 @@
 import React from "react";
+import { useState, useMemo  } from 'react';
 import styled from "styled-components";
 import { formatPrice } from "../utils/helpers";
 import { Link } from "react-router-dom";
+import Pagination from './Pagination';
 
-const ListView = ({ products}) => {
+let PageSize = 10;
+
+const ListView = ({ products }) => {
+
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  const currentTableData = useMemo(() => {
+    const firstPageIndex = (currentPage - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return products.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage]);
+
 
   return (
     <Wrapper>
-      {products.map((product ) => {
+      {currentTableData.map((product) => {
         const { id, name, price, description, images } = product;
         const image = images.length > 0 ? images[0].url : '';
-    
+
         return (
           <article key={id}>
             <img src={image} alt={name} />
@@ -24,7 +37,15 @@ const ListView = ({ products}) => {
             </div>
           </article>
         );
+     
       })}
+        <Pagination
+        className="pagination-bar"
+        currentPage={currentPage}
+        totalCount={products.length}
+        pageSize={PageSize}
+        onPageChange={page => setCurrentPage(page)}
+      />
     </Wrapper>
   );
 };
