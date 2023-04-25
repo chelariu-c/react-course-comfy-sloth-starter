@@ -18,9 +18,6 @@ const SingleProductPage = () => {
   const { id } = useParams();
   const history = useHistory();
  
-
-  // const [showStock, setShowStock] = useState(null); // state to control showing stock info
-  
   const {
     single_product_loading: loading,
     single_product_error: error,
@@ -42,8 +39,6 @@ const SingleProductPage = () => {
     });
   }, [id]);
   
-  
-
 useEffect(() => {
    fetchProductQuantity(`${id}`)
 }, [id]);
@@ -66,16 +61,6 @@ useEffect(() => {
     companyDto,
   } = product;
 
-//     const {articleId, quantityOnHand} = stock;
-
-//   let showStock = false;
-
-// if (product && stock) {
-  
-//   showStock = articleId === id && quantityOnHand > 0;
-// }
- 
-  
   return (
     <Wrapper>
       <PageHero title={name} product />

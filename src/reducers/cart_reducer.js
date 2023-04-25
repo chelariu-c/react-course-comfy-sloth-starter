@@ -9,15 +9,17 @@ import {
 const cart_reducer = (state, action) => {
 
   if (action.type === ADD_TO_CART) {
-    const { id, amount, product } = action.payload;
-    const tempItem = state.cart.find((item) => item.id === id);
+    const { product, amount, quantityOnHand } = action.payload;
+   
+    const tempItem = state.cart.find((item) => item.id === product.id);
     if(tempItem){
       const tempCart = state.cart.map((cartItem) => {
-        if (cartItem.id === id) {
+        if (cartItem.id === product.id) {
           let newAmount = cartItem.amount + amount;
           if (newAmount > cartItem.max) {
             newAmount=cartItem.max
           }
+          console.log(cartItem.max)
           return {...cartItem, amount: newAmount}
           
         } else {
@@ -27,13 +29,13 @@ const cart_reducer = (state, action) => {
       return {...state, cart:tempCart}
     } else {
       const newItem = {
-        id: id,
+        id: product.id,
         name: product.name,
         amount,
         image: product.images[0].url,
         price: product.price,
         max:product.quantityOnHand
-
+       
       }
       return {...state, cart:[...state.cart, newItem]}
     }

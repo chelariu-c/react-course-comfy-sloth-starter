@@ -97,7 +97,7 @@ if (action.type === GET_SINGLE_PRODUCT_IMAGES_BEGIN) {
     };
   }
   if (action.type === GET_PRODUCT_STOCK_SUCCESS) {
-    console.log(" action.payload,", action.payload);
+   // console.log(" action.payload,", action.payload);
     return {
       ...state,
       product_stock_loading: false,

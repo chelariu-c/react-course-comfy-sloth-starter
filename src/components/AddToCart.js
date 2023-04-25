@@ -8,17 +8,13 @@ const AddToCart = ({ product, quantityOnHand }) => {
 
   const { addToCart } = useCartContext();
   
-  
-  const { id } = product;
-  const stock = quantityOnHand;
-
   const [amount, setAmount] = useState(1);
 
   const increase = () => {
     setAmount((oldAmount) => {
       let tempAmount = oldAmount + 1;
-      if (tempAmount > stock) {
-        tempAmount = stock;
+      if (tempAmount > quantityOnHand) {
+        tempAmount = quantityOnHand;
       }
       return tempAmount;
     });
@@ -43,7 +39,7 @@ const AddToCart = ({ product, quantityOnHand }) => {
           increase={increase}
           decrease={decrease}
         />
-        <Link to="/cart" className="btn" onClick={() => addToCart(id, amount, stock) //stock becaause i want to check in inverntory service after the product
+        <Link to="/cart" className="btn" onClick={() => addToCart(product, amount, quantityOnHand) //stock becaause i want to check in inverntory service after the product
  }>
           Add to cart
         </Link>
