@@ -7,15 +7,19 @@ import Error from "./ErrorPage";
 import Checkout from "./CheckoutPage";
 import PrivateRoute from "./PrivateRoute";
 import AuthWrapper from "./AuthWrapper";
+import Login from "./LoginPage";
+import Register from "./RegisterPage";
 
 export {
-  Home,
-  Products,
-  SingleProduct,
-  About,
-  Cart,
-  Error,
-  Checkout,
-  PrivateRoute,
-  AuthWrapper,
+    Home,
+    Products,
+    SingleProduct,
+    About,
+    Cart,
+    Error,
+    Checkout,
+    PrivateRoute,
+    AuthWrapper,
+    Login,
+    Register,
 };
