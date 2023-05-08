@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navbar, Sidebar, Footer } from "./components";
 import {
     Home,
@@ -13,6 +13,7 @@ import {
     AuthWrapper,
     Login,
     Register,
+    ResetPassword,
 } from "./pages";
 
 function App() {
@@ -22,37 +23,31 @@ function App() {
                 <Router>
                     <Navbar />
                     <Sidebar />
-                    <Switch>
-                        <Route exact path="/">
-                            <Home />
-                        </Route>
-                        <Route exact path="/login">
-                            <Login />
-                        </Route>
-                        <Route exact path="/register">
-                            <Register />
-                        </Route>
-                        <Route exact path="/about">
-                            <About />
-                        </Route>
-                        <Route exact path="/cart">
-                            <Cart />
-                        </Route>
-                        <Route exact path="/products">
-                            <Products />
-                        </Route>
+                    <Routes>
+                        <Route exact path="/" element={<Home />} />
+                        <Route exact path="/login" element={<Login />} />
+                        <Route
+                            exact
+                            path="/reset"
+                            element={<ResetPassword />}
+                        />
+                        <Route exact path="/register" element={<Register />} />
+                        <Route exact path="/about" element={<About />} />
+                        <Route exact path="/cart" element={<Cart />} />
+                        <Route exact path="/products" element={<Products />} />
                         <Route
                             exact
                             path="/products/:id"
-                            children={<SingleProduct />}
+                            // children={<SingleProduct />}
+                            element={<SingleProduct />}
                         />
-                        <PrivateRoute exact path="/checkout">
-                            <Checkout />
-                        </PrivateRoute>
-                        <Route exact path="*">
-                            <Error />
-                        </Route>
-                    </Switch>
+                        {/* <PrivateRoute
+                            exact
+                            path="/checkout"
+                            element={<Checkout />}
+                        /> */}
+                        <Route exact path="*" element={<Error />} />
+                    </Routes>
                     <Footer />
                 </Router>
             </AuthWrapper>

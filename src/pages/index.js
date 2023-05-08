@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute";
 import AuthWrapper from "./AuthWrapper";
 import Login from "./LoginPage";
 import Register from "./RegisterPage";
+import ResetPassword from "./ResetPasswordPage";
 
 export {
     Home,
@@ -22,4 +23,5 @@ export {
     AuthWrapper,
     Login,
     Register,
+    ResetPassword,
 };

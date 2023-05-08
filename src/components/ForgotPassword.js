@@ -2,15 +2,16 @@ import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Container, Typography, Link, Box, Divider } from "@mui/material";
 import styled from "@emotion/styled";
-import LoginForm from "../components/forms/LoginForm";
+import LoginForm from "./forms/LoginForm";
 import SocialAuth from "../components/SocialAuth";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { motion } from "framer-motion";
+import ForgotPasswordForm from "./forms/ForgotPasswordForm";
 
 //////////////////////////////////
 const RootStyle = styled("div")({
     background: "rgb(249, 250, 251)",
-    height: "100vh",
+    height: "90vh",
     display: "grid",
     placeItems: "center",
 });
@@ -21,13 +22,13 @@ const HeadingStyle = styled(Box)({
 
 const ContentStyle = styled("div")({
     maxWidth: 400,
-    maxHeight: 570,
     padding: 25,
     margin: "auto",
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
     background: "#fff",
+    // marginTop: -100, // adjust this value to move the form closer to the footer
 });
 
 let easing = [0.6, -0.05, 0.01, 0.99];
@@ -47,36 +48,16 @@ const fadeInUp = {
     },
 };
 
-const Login = ({ setAuth }) => {
+const ForgotPassword = ({ setAuth }) => {
     return (
         <RootStyle>
             <Container maxWidth="sm">
                 <ContentStyle>
                     <HeadingStyle component={motion.div} {...fadeInUp}>
                         <Logo />
-                        <Typography sx={{ color: "text.secondary", mb: 5 }}>
-                            Login to your account
-                        </Typography>
                     </HeadingStyle>
 
-                    <Box component={motion.div} {...fadeInUp}>
-                        <SocialAuth />
-                    </Box>
-
-                    <Divider
-                        sx={{ my: 3 }}
-                        component={motion.div}
-                        {...fadeInUp}
-                    >
-                        <Typography
-                            variant="body2"
-                            sx={{ color: "text.secondary" }}
-                        >
-                            OR
-                        </Typography>
-                    </Divider>
-
-                    <LoginForm setAuth={setAuth} />
+                    <ForgotPasswordForm setAuth={setAuth} />
 
                     <Typography
                         component={motion.p}
@@ -85,13 +66,13 @@ const Login = ({ setAuth }) => {
                         align="center"
                         sx={{ mt: 3 }}
                     >
-                        Don’t have an account?{" "}
+                        Return To {"  "}
                         <Link
                             variant="subtitle2"
                             component={RouterLink}
-                            to="/register"
+                            to="/login"
                         >
-                            Sign up
+                            Login
                         </Link>
                     </Typography>
                 </ContentStyle>
@@ -100,4 +81,4 @@ const Login = ({ setAuth }) => {
     );
 };
 
-export default Login;
+export default ForgotPassword;

@@ -51,8 +51,6 @@ const Register = () => {
                     }}
                 >
                     <Avatar src="/broken-image.jpg" />
-                    {/* <LockOutlinedIcon />
-                    </Avatar> */}
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
@@ -156,18 +154,19 @@ const Register = () => {
                                 />
                             </Grid>
                         </Grid>
-                        <Grid container justifyContent="center">
-                            <Button
-                                type="submit"
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                            >
-                                Sign Up
-                            </Button>
-                        </Grid>
+                        {/* <Grid container justifyContent="center"> */}
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            fullWidth
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            Sign Up
+                        </Button>
+                        {/* </Grid> */}
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="/login" variant="body2">
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>
