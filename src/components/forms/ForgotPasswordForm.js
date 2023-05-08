@@ -3,21 +3,9 @@ import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
 
-import {
-    Box,
-    Checkbox,
-    FormControlLabel,
-    IconButton,
-    InputAdornment,
-    Link,
-    Stack,
-    TextField,
-} from "@mui/material";
+import { Box, Stack, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
-
-
 
 let easing = [0.6, -0.05, 0.01, 0.99];
 const animate = {
@@ -35,7 +23,7 @@ const ForgotPassword = ({ setAuth }) => {
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
 
-    const [showPassword, setShowPassword] = useState(false);
+    // const [showPassword, setShowPassword] = useState(false);
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string()

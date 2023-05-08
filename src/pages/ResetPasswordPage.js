@@ -1,4 +1,3 @@
-import Login from "../components/Login";
 import React from "react";
 import ResetPassword from "../components/ForgotPassword";
 
