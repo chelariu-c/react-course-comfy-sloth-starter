@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,28 +12,52 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PhoneField from "./PhoneField";
+import axios from "axios";
+import { user_url as url } from "../utils/constants";
+import Alert from "@mui/material/Alert";
+import styled from "styled-components";
+
 const theme = createTheme();
 
 const Register = () => {
-    const [passwordError, setPasswordError] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [open, setOpen] = useState(false);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-        const pass = document.getElementById("password").value;
+        const data = new FormData(e.currentTarget);
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+        const password = document.getElementById("password").value;
         const confirmPass = document.getElementById("confirm-password").value;
-        if (pass === confirmPass) {
-            // passwords match
-            // continue with form submission logic
-        } else {
-            // passwords don't match
-            // display an error message to the user
-        }
+        const address = document.getElementById("address").value;
+        const contact = document.getElementById("contact").value;
+
+        const formData = {
+            firstName,
+            lastName,
+            password,
+            email: data.get("email"),
+            address,
+            contact,
+            role: "USER",
+        };
+
         console.log({
             email: data.get("email"),
             password: data.get("password"),
         });
+        try {
+            const response = await axios.post(url, formData);
+            console.log("Form data submitted successfully", response);
+            setSuccess(true);
+            setOpen(true);
+        } catch (error) {
+            setSuccess(false);
+            setOpen(true);
+            console.log("Error submitting form data:", error);
+        }
     };
 
     return (
@@ -54,6 +78,24 @@ const Register = () => {
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
+                    {success && open && (
+                        <Alert
+                            variant="filled"
+                            severity="success"
+                            onClose={() => setOpen(false)}
+                        >
+                            Account created! Please Login
+                        </Alert>
+                    )}
+                    {success === false && open && (
+                        <Alert
+                            variant="filled"
+                            severity="error"
+                            onClose={() => setOpen(false)}
+                        >
+                            Error creating account. Please try again.
+                        </Alert>
+                    )}
                     <Box
                         component="form"
                         noValidate
@@ -112,12 +154,6 @@ const Register = () => {
                                     type="password"
                                     id="confirm-password"
                                     autoComplete="new-password"
-                                    error={passwordError}
-                                    helperText={
-                                        passwordError
-                                            ? "Passwords do not match"
-                                            : ""
-                                    }
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -177,4 +213,5 @@ const Register = () => {
         </ThemeProvider>
     );
 };
+
 export default Register;
