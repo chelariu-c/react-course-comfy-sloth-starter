@@ -3,13 +3,15 @@ import logo from "../assets/logo.svg";
 import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { links } from "../utils/constants";
+import React from "react";
+import { useSelector } from "react-redux";
 import CartButtons from "./CartButtons";
 import { useProductsContext } from "../context/products_context";
-import { useUserContext } from "../context/user_context";
 
 const Nav = () => {
     const { openSidebar } = useProductsContext();
-    const { myUser } = useUserContext();
+    const { user: currentUser } = useSelector((state) => state.auth);
+
     return (
         <NavContainer>
             <div className="nav-center">
@@ -34,14 +36,13 @@ const Nav = () => {
                             </li>
                         );
                     })}
-                    {myUser && (
+                    {currentUser && (
                         <li>
                             <Link to="/checkout">checkout</Link>
                         </li>
                     )}
                 </ul>
                 <CartButtons />
-                {/* <Login /> */}
             </div>
         </NavContainer>
     );

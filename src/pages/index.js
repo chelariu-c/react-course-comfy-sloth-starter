@@ -10,6 +10,7 @@ import AuthWrapper from "./AuthWrapper";
 import Login from "./LoginPage";
 import Register from "./RegisterPage";
 import ResetPassword from "./ResetPasswordPage";
+import Profile from "./ProfilePage";
 
 export {
     Home,
@@ -24,4 +25,5 @@ export {
     Login,
     Register,
     ResetPassword,
+    Profile,
 };

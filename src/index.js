@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-
+import { Provider } from "react-redux";
+import  store  from "./store";
 import { ProductsProvider } from "./context/products_context";
 import { FilterProvider } from "./context/filter_context";
 import { CartProvider } from "./context/cart_context";
@@ -22,13 +23,15 @@ root.render(
             cacheLocation="localstorage"
         >
             <UserProvider>
-                <ProductsProvider>
-                    <FilterProvider>
-                        <CartProvider>
-                            <App />
-                        </CartProvider>
-                    </FilterProvider>
-                </ProductsProvider>
+                <Provider store={store}>
+                    <ProductsProvider>
+                        <FilterProvider>
+                            <CartProvider>
+                                <App />
+                            </CartProvider>
+                        </FilterProvider>
+                    </ProductsProvider>
+                </Provider>
             </UserProvider>
         </Auth0Provider>
     </AuthProvider>

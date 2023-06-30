@@ -19,6 +19,7 @@ import PageHero from "./PageHero";
 import StripeCheckout from "./StripeCheckout";
 import Login from "./Login";
 import Register from "./Register";
+import Profile from "./Profile";
 
 export {
     FeaturedProducts,
@@ -42,4 +43,5 @@ export {
     StripeCheckout,
     Login,
     Register,
+    Profile,
 };

@@ -1,23 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import { MuiTelInput } from "mui-tel-input";
 
 const PhoneField = (props) => {
-    const { label, onChange, ...restProps } = props;
-    const [phone, setPhone] = useState("");
+    const { label, value, onChange, ...restProps } = props;
 
-    const handleChange = (newPhone) => {
-        setPhone(newPhone);
+    const handleChange = (newValue) => {
+        onChange(newValue);
     };
     return (
         <Box>
             <MuiTelInput
                 label={label}
-                value={phone}
+                value={value}
                 onChange={handleChange}
                 defaultCountry="ro"
-                type="tel" // Set type to "tel"
+                type="tel"
                 {...restProps}
             />
         </Box>

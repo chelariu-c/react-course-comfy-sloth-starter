@@ -2,19 +2,8 @@ import React, { useState } from "react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";
-
-import {
-    Box,
-    Checkbox,
-    FormControlLabel,
-    IconButton,
-    InputAdornment,
-    Link,
-    Stack,
-    TextField,
-} from "@mui/material";
+import { Box, Stack, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 
 let easing = [0.6, -0.05, 0.01, 0.99];
@@ -28,24 +17,22 @@ const animate = {
     },
 };
 
-const LoginForm = ({ setAuth }) => {
+const ForgotPassword = ({ setAuth }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
 
-    const [showPassword, setShowPassword] = useState(false);
+    // const [showPassword, setShowPassword] = useState(false);
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string()
             .email("Provide a valid email address")
             .required("Email is required"),
-        password: Yup.string().required("Password is required"),
     });
 
     const formik = useFormik({
         initialValues: {
             email: "",
-            password: "",
             remember: true,
         },
         validationSchema: LoginSchema,
@@ -98,33 +85,6 @@ const LoginForm = ({ setAuth }) => {
                             error={Boolean(touched.email && errors.email)}
                             helperText={touched.email && errors.email}
                         />
-
-                        <TextField
-                            fullWidth
-                            autoComplete="current-password"
-                            type={showPassword ? "text" : "password"}
-                            label="Password"
-                            {...getFieldProps("password")}
-                            error={Boolean(touched.password && errors.password)}
-                            helperText={touched.password && errors.password}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            onClick={() =>
-                                                setShowPassword((prev) => !prev)
-                                            }
-                                        >
-                                            {showPassword ? (
-                                                <Icon icon="eva:eye-fill" />
-                                            ) : (
-                                                <Icon icon="eva:eye-off-fill" />
-                                            )}
-                                        </IconButton>
-                                    </InputAdornment>
-                                ),
-                            }}
-                        />
                     </Box>
 
                     <Box
@@ -137,26 +97,7 @@ const LoginForm = ({ setAuth }) => {
                             alignItems="center"
                             justifyContent="space-between"
                             sx={{ my: 2 }}
-                        >
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        {...getFieldProps("remember")}
-                                        checked={values.remember}
-                                    />
-                                }
-                                label="Remember me"
-                            />
-
-                            <Link
-                                component={RouterLink}
-                                variant="subtitle2"
-                                to="/reset"
-                                underline="hover"
-                            >
-                                Forgot password?
-                            </Link>
-                        </Stack>
+                        ></Stack>
 
                         <LoadingButton
                             fullWidth
@@ -165,7 +106,7 @@ const LoginForm = ({ setAuth }) => {
                             variant="contained"
                             loading={isSubmitting}
                         >
-                            {isSubmitting ? "loading..." : "Login"}
+                            {isSubmitting ? "loading..." : "Reset"}
                         </LoadingButton>
                     </Box>
                 </Box>
@@ -174,4 +115,4 @@ const LoginForm = ({ setAuth }) => {
     );
 };
 
-export default LoginForm;
+export default ForgotPassword;

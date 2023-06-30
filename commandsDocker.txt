@@ -1,0 +1,23 @@
+0. create Docker file inside in you project and configure as
+"
+FROM node:20-alpine3.17
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+EXPOSE 3000
+"
+
+1. go to your project -> open a terminal
+2. docker build - t comfy-shop .
+3. docker ps -a  (show container ids)
+4. docker images ps/or/-a (displays all images)
+5. docker run -i -p 3000:3000 comfy-shop sh  (is starting our container)
+6. npm start (go to container where you have your app then open an terminal) 

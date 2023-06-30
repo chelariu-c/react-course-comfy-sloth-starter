@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,52 +12,82 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PhoneField from "./PhoneField";
-import axios from "axios";
-import { user_url as url } from "../utils/constants";
 import Alert from "@mui/material/Alert";
-import styled from "styled-components";
-
+import { useDispatch } from "react-redux";
+import { register } from "../context/auth";
 const theme = createTheme();
 
 const Register = () => {
     const [success, setSuccess] = useState(false);
     const [open, setOpen] = useState(false);
 
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [address, setAddress] = useState("");
+    const [contact, setContact] = useState("07");
+    const role = ["user"];
+
+    const dispatch = useDispatch();
+
+    const onChangeEmail = (e) => {
+        const email = e.target.value;
+        setEmail(email);
+    };
+
+    const onChangePassword = (e) => {
+        const password = e.target.value;
+        setPassword(password);
+    };
+
+    const onChangeFirstName = (e) => {
+        const firstName = e.target.value;
+        setFirstName(firstName);
+    };
+
+    const onChangeLastName = (e) => {
+        const lastName = e.target.value;
+        setLastName(lastName);
+    };
+
+    const onChangeContact = (newContact) => {
+        setContact(newContact);
+    };
+
+    const onChangeAddress = (e) => {
+        const address = e.target.value;
+        setAddress(address);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setSuccess(false);
 
-        const data = new FormData(e.currentTarget);
-        const firstName = document.getElementById("firstName").value;
-        const lastName = document.getElementById("lastName").value;
-        const password = document.getElementById("password").value;
-        const confirmPass = document.getElementById("confirm-password").value;
-        const address = document.getElementById("address").value;
-        const contact = document.getElementById("contact").value;
-
-        const formData = {
-            firstName,
-            lastName,
-            password,
-            email: data.get("email"),
-            address,
-            contact,
-            role: "USER",
-        };
-
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
-        });
-        try {
-            const response = await axios.post(url, formData);
-            console.log("Form data submitted successfully", response);
-            setSuccess(true);
-            setOpen(true);
-        } catch (error) {
-            setSuccess(false);
-            setOpen(true);
-            console.log("Error submitting form data:", error);
-        }
+        dispatch(
+            register(
+                firstName,
+                lastName,
+                email,
+                password,
+                address,
+                contact,
+                role
+            )
+        )
+            .then(() => {
+                setSuccess(true);
+                setOpen(true);
+                setFirstName("");
+                setLastName("");
+                setEmail("");
+                setPassword("");
+                setAddress("");
+                setContact("07");
+            })
+            .catch(() => {
+                setSuccess(false);
+            });
     };
 
     return (
@@ -111,6 +141,7 @@ const Register = () => {
                                     fullWidth
                                     id="firstName"
                                     label="First Name"
+                                    onChange={onChangeFirstName}
                                     autoFocus
                                 />
                             </Grid>
@@ -120,6 +151,7 @@ const Register = () => {
                                     fullWidth
                                     id="lastName"
                                     label="Last Name"
+                                    onChange={onChangeLastName}
                                     name="lastName"
                                     autoComplete="family-name"
                                 />
@@ -130,6 +162,7 @@ const Register = () => {
                                     fullWidth
                                     id="email"
                                     label="Email Address"
+                                    onChange={onChangeEmail}
                                     name="email"
                                     autoComplete="email"
                                 />
@@ -141,6 +174,7 @@ const Register = () => {
                                     name="password"
                                     label="Password"
                                     type="password"
+                                    onChange={onChangePassword}
                                     id="password"
                                     autoComplete="new-password"
                                 />
@@ -152,6 +186,7 @@ const Register = () => {
                                     name="confirmPassword"
                                     label="Confirm Password"
                                     type="password"
+                                    onChange={onChangePassword}
                                     id="confirm-password"
                                     autoComplete="new-password"
                                 />
@@ -163,6 +198,7 @@ const Register = () => {
                                     name="address"
                                     label="Address"
                                     type="text"
+                                    onChange={onChangeAddress}
                                     id="address"
                                     autoComplete="address"
                                 />
@@ -174,6 +210,8 @@ const Register = () => {
                                     name="contact"
                                     label="Mobile"
                                     type="tel"
+                                    value={contact}
+                                    onChange={onChangeContact}
                                     id="contact"
                                     autoComplete="contact"
                                 />

@@ -14,6 +14,7 @@ import {
     Login,
     Register,
     ResetPassword,
+    Profile,
 } from "./pages";
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
                         <Route exact path="/about" element={<About />} />
                         <Route exact path="/cart" element={<Cart />} />
                         <Route exact path="/products" element={<Products />} />
+                        <Route exact path="/profile" element={<Profile />} />
                         <Route
                             exact
                             path="/products/:id"
