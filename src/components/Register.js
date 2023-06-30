@@ -104,7 +104,14 @@ const Register = () => {
                         marginBottom: 4,
                     }}
                 >
-                    <Avatar src="/broken-image.jpg" />
+                    <Avatar
+                        alt="User"
+                        sx={{
+                            margin: "auto",
+                            width: 100,
+                            height: 100,
+                        }}
+                    />
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>

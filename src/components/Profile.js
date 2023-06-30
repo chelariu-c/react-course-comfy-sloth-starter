@@ -9,8 +9,9 @@ import Avatar from "@mui/material/Avatar";
 const ProfileCard = styled(Card)(({ theme }) => ({
     maxWidth: 400,
     margin: "0 auto",
-    marginTop: theme.spacing(8),
-    minHeight: "calc(80vh - 30px)", // Adjust the height based on your layout
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(5),
+    minHeight: "calc(80vh - 30px)",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -38,7 +39,7 @@ const Profile = () => {
     return (
         <ProfileCard>
             <CardContent>
-                <Typography variant="h5" component="h2" align="center">
+                <Typography variant="h4" component="h2" align="center">
                     Profile
                 </Typography>
                 <Avatar
@@ -47,6 +48,8 @@ const Profile = () => {
                         margin: "auto",
                         marginBottom: "1rem",
                         marginTop: "2rem",
+                        width: 150,
+                        height: 150,
                     }}
                 />
                 <Typography
