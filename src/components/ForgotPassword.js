@@ -1,12 +1,11 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { Container, Typography, Link, Box, Divider } from "@mui/material";
+import { Container, Typography, Link, Box } from "@mui/material";
 import styled from "@emotion/styled";
-import LoginForm from "./LoginForm";
 import SocialAuth from "../components/SocialAuth";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { motion } from "framer-motion";
-import ForgotPasswordForm from "./forms/ForgotPasswordForm";
+import ForgotPasswordForm from "./ForgotPasswordForm";
 
 //////////////////////////////////
 const RootStyle = styled("div")({

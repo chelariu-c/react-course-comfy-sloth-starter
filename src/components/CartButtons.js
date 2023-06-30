@@ -69,7 +69,8 @@ const CartButtons = () => {
                         onClose={handleClose}
                     >
                         <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>My account</MenuItem>
+                        <MenuItem onClick={handleClose}>Settings</MenuItem>
+                        <MenuItem onClick={handleClose}>Cards</MenuItem>
                         <MenuItem
                             onClick={() =>
                                 logOut({ returnTo: window.location.origin })
