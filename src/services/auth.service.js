@@ -1,6 +1,5 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:8082/users/";
+import api from "./api";
+import TokenService from "./token.service";
 
 const register = (
     firstName,
@@ -11,7 +10,7 @@ const register = (
     contact,
     role
 ) => {
-    const response = axios.post(API_URL + "signup", {
+    const response = api.post("/users/signup", {
         firstName,
         lastName,
         email,
@@ -22,15 +21,17 @@ const register = (
     });
     return response;
 };
+
 const login = (email, password) => {
-    return axios
-        .post(API_URL + "signin", {
+    return api
+        .post("/users/signin", {
             email,
             password,
         })
         .then((response) => {
-            if (response.data.accessToken) {
-                localStorage.setItem("user", JSON.stringify(response.data));
+            if (response.data) {
+                const user = response.data;
+                TokenService.setUser(user);
             }
 
             return response.data;
@@ -38,11 +39,18 @@ const login = (email, password) => {
 };
 
 const logout = () => {
-    localStorage.removeItem("user");
+    TokenService.removeUser();
 };
 
-export default {
+const getCurrentUser = () => {
+    return JSON.parse(localStorage.getItem("user"));
+};
+
+const AuthService = {
     register,
     login,
     logout,
+    getCurrentUser,
 };
+
+export default AuthService;

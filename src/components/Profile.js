@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { Button, Card, CardContent, Typography } from "@mui/material";
@@ -20,20 +20,45 @@ const ProfileCard = styled(Card)(({ theme }) => ({
 
 const Profile = () => {
     const { user: currentUser } = useSelector((state) => state.auth);
+    const [timeLeft, setTimeLeft] = useState(0);
 
     useEffect(() => {
         console.log("Auth state:", currentUser);
+
+        if (currentUser) {
+            const expiryTime = new Date(currentUser.expiryDate).getTime();
+            const currentTime = new Date().getTime();
+            const timeRemaining = expiryTime - currentTime;
+
+            if (timeRemaining > 0) {
+                setTimeLeft(timeRemaining);
+                const timer = setInterval(() => {
+                    setTimeLeft((prevTime) => prevTime - 1000);
+                }, 1000);
+
+                return () => clearInterval(timer);
+            }
+        }
     }, [currentUser]);
 
     if (!currentUser) {
         return <Navigate to="/login" />;
     }
 
-    const { token, id, email, roles } = currentUser;
+    const { token, id, email, expiryDate, roles } = currentUser;
+
+    const formattedExpiryDate = new Date(expiryDate).toLocaleDateString();
 
     const handleCopyToClipboard = () => {
         navigator.clipboard.writeText(token);
         toast.success("Token copied to clipboard!");
+    };
+
+    const formatTimeLeft = (milliseconds) => {
+        const totalSeconds = Math.floor(milliseconds / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     };
 
     return (
@@ -61,12 +86,14 @@ const Profile = () => {
                 </Typography>
                 <Typography variant="body2" align="center">
                     <strong>Authorities:</strong>
-                    <ul>
-                        {roles &&
-                            roles.map((role, index) => (
-                                <li key={index}>{role}</li>
-                            ))}
-                    </ul>
+                    {roles &&
+                        roles.map((role, index) => <li key={index}>{role}</li>)}
+                </Typography>
+                <Typography variant="body2" align="center">
+                    <strong>Expiry Date:</strong> {formattedExpiryDate}
+                </Typography>
+                <Typography variant="body2" align="center">
+                    <strong>Time Left:</strong> {formatTimeLeft(timeLeft)}
                 </Typography>
             </CardContent>
             <Button

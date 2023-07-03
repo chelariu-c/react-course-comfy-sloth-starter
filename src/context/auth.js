@@ -5,6 +5,7 @@ import {
     LOGIN_FAIL,
     LOGOUT,
     SET_MESSAGE,
+    REFRESH_TOKEN,
 } from "../actions";
 import AuthService from "../services/auth.service";
 
@@ -61,6 +62,7 @@ export const login = (email, password) => (dispatch) => {
                 type: LOGIN_SUCCESS,
                 payload: { user: data },
             });
+
             return Promise.resolve();
         },
         (error) => {
@@ -90,5 +92,12 @@ export const logout = () => (dispatch) => {
 
     dispatch({
         type: LOGOUT,
+    });
+};
+
+export const refreshToken = (accessToken) => (dispatch) => {
+    dispatch({
+        type: REFRESH_TOKEN,
+        payload: accessToken,
     });
 };

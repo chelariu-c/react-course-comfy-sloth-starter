@@ -4,10 +4,11 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT,
-    
+    REFRESH_TOKEN,
 } from "../actions";
+import TokenService from "../services/token.service";
 
-const user = JSON.parse(localStorage.getItem("user"));
+const user = TokenService.getUser();
 
 const initialState = user
     ? { isLoggedIn: true, user }
@@ -44,6 +45,11 @@ export default function auth(state = initialState, action) {
                 ...state,
                 isLoggedIn: false,
                 user: null,
+            };
+        case REFRESH_TOKEN:
+            return {
+                ...state,
+                user: { ...user, accessToken: payload },
             };
         default:
             return state;
