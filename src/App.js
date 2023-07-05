@@ -20,39 +20,33 @@ import {
 function App() {
     return (
         <div>
-            <AuthWrapper>
-                <Router>
-                    <Navbar />
-                    <Sidebar />
-                    <Routes>
-                        <Route exact path="/" element={<Home />} />
-                        <Route exact path="/login" element={<Login />} />
-                        <Route
-                            exact
-                            path="/reset"
-                            element={<ResetPassword />}
-                        />
-                        <Route exact path="/register" element={<Register />} />
-                        <Route exact path="/about" element={<About />} />
-                        <Route exact path="/cart" element={<Cart />} />
-                        <Route exact path="/products" element={<Products />} />
-                        <Route exact path="/profile" element={<Profile />} />
-                        <Route
-                            exact
-                            path="/products/:id"
-                            // children={<SingleProduct />}
-                            element={<SingleProduct />}
-                        />
-                        {/* <PrivateRoute
+            <Router>
+                <Navbar />
+                <Sidebar />
+                <Routes>
+                    <Route exact path="/" element={<Home />} />
+                    <Route exact path="/login" element={<Login />} />
+                    <Route exact path="/reset" element={<ResetPassword />} />
+                    <Route exact path="/register" element={<Register />} />
+                    <Route exact path="/about" element={<About />} />
+                    <Route exact path="/cart" element={<Cart />} />
+                    <Route exact path="/products" element={<Products />} />
+                    <Route exact path="/profile" element={<Profile />} />
+                    <Route
+                        exact
+                        path="/products/:id"
+                        // children={<SingleProduct />}
+                        element={<SingleProduct />}
+                    />
+                    {/* <PrivateRoute
                             exact
                             path="/checkout"
                             element={<Checkout />}
                         /> */}
-                        <Route exact path="*" element={<Error />} />
-                    </Routes>
-                    <Footer />
-                </Router>
-            </AuthWrapper>
+                    <Route exact path="*" element={<Error />} />
+                </Routes>
+                <Footer />
+            </Router>
         </div>
     );
 }

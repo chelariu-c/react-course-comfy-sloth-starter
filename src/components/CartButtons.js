@@ -9,7 +9,7 @@ import { useCartContext } from "../context/cart_context";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useCallback } from "react";
-import { logout } from "../context/auth";
+import { logout } from "../context/auth_context";
 import Menu from "@mui/material/Menu";
 
 const CartButtons = () => {

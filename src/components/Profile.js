@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { Button, Card, CardContent, Typography } from "@mui/material";
 import { styled } from "@mui/system";
@@ -20,45 +20,46 @@ const ProfileCard = styled(Card)(({ theme }) => ({
 
 const Profile = () => {
     const { user: currentUser } = useSelector((state) => state.auth);
-    const [timeLeft, setTimeLeft] = useState(0);
+    const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0 });
+    const { accessToken, email, roles, expiryDate } = currentUser;
 
     useEffect(() => {
         console.log("Auth state:", currentUser);
 
         if (currentUser) {
-            const expiryTime = new Date(currentUser.expiryDate).getTime();
-            const currentTime = new Date().getTime();
-            const timeRemaining = expiryTime - currentTime;
+            let expiryTime = expiryDate;
+            let timer = setInterval(() => {
+                let currentTime = new Date();
+                let currentHours = currentTime.getHours().toString();
+                let currentMinutes = currentTime.getMinutes().toString();
 
-            if (timeRemaining > 0) {
-                setTimeLeft(timeRemaining);
-                const timer = setInterval(() => {
-                    setTimeLeft((prevTime) => prevTime - 1000);
-                }, 1000);
+                let [expiryHours, expiryMinutes] = expiryTime.split(":");
+                let expiryMinutesTotal =
+                    parseInt(expiryHours) * 60 + parseInt(expiryMinutes);
+                let currentTotalMinutes =
+                    parseInt(currentHours) * 60 + parseInt(currentMinutes);
+                let timeRemaining = expiryMinutesTotal - currentTotalMinutes;
 
-                return () => clearInterval(timer);
-            }
+                let remainingHours = Math.floor(timeRemaining / 60);
+                let remainingMinutes = timeRemaining % 60;
+
+                setTimeLeft({
+                    hours: remainingHours,
+                    minutes: remainingMinutes,
+                });
+            }, 6);
+
+            return () => clearInterval(timer);
         }
-    }, [currentUser]);
+    }, [currentUser, expiryDate]);
 
     if (!currentUser) {
         return <Navigate to="/login" />;
     }
 
-    const { token, id, email, expiryDate, roles } = currentUser;
-
-    const formattedExpiryDate = new Date(expiryDate).toLocaleDateString();
-
     const handleCopyToClipboard = () => {
-        navigator.clipboard.writeText(token);
+        navigator.clipboard.writeText(accessToken);
         toast.success("Token copied to clipboard!");
-    };
-
-    const formatTimeLeft = (milliseconds) => {
-        const totalSeconds = Math.floor(milliseconds / 1000);
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     };
 
     return (
@@ -90,10 +91,11 @@ const Profile = () => {
                         roles.map((role, index) => <li key={index}>{role}</li>)}
                 </Typography>
                 <Typography variant="body2" align="center">
-                    <strong>Expiry Date:</strong> {formattedExpiryDate}
+                    <strong>Expiry Date:</strong> {currentUser.expiryDate}
                 </Typography>
                 <Typography variant="body2" align="center">
-                    <strong>Time Left:</strong> {formatTimeLeft(timeLeft)}
+                    <strong>Time Left:</strong> {timeLeft.hours} hours{" "}
+                    {timeLeft.minutes} minutes
                 </Typography>
             </CardContent>
             <Button

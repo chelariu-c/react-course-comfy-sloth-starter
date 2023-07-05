@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PhoneField from "./PhoneField";
 import Alert from "@mui/material/Alert";
 import { useDispatch } from "react-redux";
-import { register } from "../context/auth";
+import { register } from "../context/auth_context";
 const theme = createTheme();
 
 const Register = () => {

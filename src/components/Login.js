@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 import SocialAuth from "./SocialAuth";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { motion } from "framer-motion";
-import { login } from "../context/auth";
+import { login } from "../context/auth_context";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, FormikProvider, useFormik } from "formik";
 import * as Yup from "yup";

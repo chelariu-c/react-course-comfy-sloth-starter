@@ -1,25 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-
-
-
+import AuthService from "../services/auth.service";
 
 const UserContext = React.createContext();
 export const UserProvider = ({ children }) => {
-    const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
-    const [myUser, setMyUser] = useState(null);
-
+    const [currentUser, setCurrentUser] = useState(undefined);
 
     useEffect(() => {
-        if (isAuthenticated) {
-            setMyUser(user);
-        } else {
-            setMyUser(false);
+        const user = AuthService.getCurrentUser();
+
+        if (user) {
+            setCurrentUser(user);
         }
-    }, [isAuthenticated]);
+    }, []);
+
+    const logOut = () => {
+        AuthService.logout();
+
+        setCurrentUser(undefined);
+    };
 
     return (
-        <UserContext.Provider value={{ loginWithRedirect, logout, myUser }}>
+        <UserContext.Provider value={{ logOut, currentUser }}>
             {children}
         </UserContext.Provider>
     );
